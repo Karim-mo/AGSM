@@ -69,13 +69,18 @@ export class AgsmService {
     }
   }
 
-  setReducerState(reducerName: string, state: any, update: boolean): void {
-    if (!this.store[reducerName]) {
+  setReducerState(
+    selector: (state: any) => any,
+    state: any,
+    update: boolean
+  ): void {
+    const currState = selector(this.store);
+    if (!currState) {
       throw new Error('Reducer not found in store');
     }
-    this.store[reducerName].state = state;
+    currState.state = state;
     if (update) {
-      this.store[reducerName].reducer.next(state);
+      currState.reducer.next(state);
     }
   }
 
