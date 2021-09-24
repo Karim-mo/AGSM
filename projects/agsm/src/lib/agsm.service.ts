@@ -17,7 +17,7 @@ export class AgsmService {
 
   addReducer(
     reducerName: string,
-    reducerFunc: (action: Action, initialState?: {}) => {}
+    reducerFunc: (action: Action, initialState?: any) => {}
   ): void {
     if (this.store[reducerName]) {
       throw new Error('Cannot have duplicate reducer names in store.');
@@ -37,7 +37,7 @@ export class AgsmService {
     // return this.store[reducerName].reducer.asObservable();
   }
 
-  dispatch(actionType: string, payload?: {}): void {
+  dispatch(actionType: string, payload?: any): void {
     for (const key of Object.keys(this.store)) {
       const action: Action = {
         type: actionType,
