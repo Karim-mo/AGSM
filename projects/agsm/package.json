@@ -1,6 +1,6 @@
 {
   "name": "agsm",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "peerDependencies": {
     "@angular/common": "^12.2.0",
     "@angular/core": "^12.2.0"
@@ -13,5 +13,9 @@
     "rxjs",
     "redux",
     "state"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Karim-mo/AGSM"
+  }
 }

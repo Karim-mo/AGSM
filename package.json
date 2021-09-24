@@ -42,5 +42,9 @@
     "rxjs",
     "redux",
     "state"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Karim-mo/AGSM"
+  }
 }
