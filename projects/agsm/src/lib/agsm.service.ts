@@ -1,6 +1,6 @@
 import { state } from '@angular/animations';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Action } from '../models/action.model';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AgsmService {
   /* For future use */
   private stateMap: any = {};
   private actionMap: any = {};
-  private _store = new Subject<any>();
+  private _store = new BehaviorSubject<any>({});
 
   constructor() {}
 
@@ -26,7 +26,7 @@ export class AgsmService {
     this.store[reducerName] = {
       dispatcher: reducerFunc,
       state: reducerFunc({ type: 'AGSM_INIT', payload: {} }),
-      reducer: new Subject<any>(),
+      reducer: new BehaviorSubject<any>({}),
     };
 
     // setTimeout(
