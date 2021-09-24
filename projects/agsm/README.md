@@ -19,7 +19,7 @@ AGSM stands for Angular Global State Management and is a RxJs implementation of 
 - All changes are done with pure functions (reducers)
 - Clean code and a trackable file hierarchy consisting of actions, reducers and action types
 
-## Installation
+## Installing
 
 ```bash
 npm install agsm
@@ -227,7 +227,3 @@ AGSM is heavily inspired by React Redux as an architecture/concept and is based 
 ## License
 
 [MIT](https://github.com/Karim-mo/AGSM/blob/master/LICENSE)
-
-## keywords
-
-[rxjs](https://www.npmjs.com/search?q=keywords:rxjs) [redux](https://www.npmjs.com/search?q=keywords:redux) [state](https://www.npmjs.com/search?q=keywords:state)
