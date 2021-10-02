@@ -55,11 +55,31 @@ export class AgsmService {
    * @returns void
    */
   dispatch(actionType: string, payload?: any): void {
+    const action: Action = {
+      type: actionType,
+      payload: payload ?? {},
+    };
+
+    if (this.devToolsLink) {
+      try {
+        chrome.runtime.sendMessage('ejpcjcmhahncbieoipffmamnedfhghld', {
+          type: 'agsm_event',
+          agsmEvent: actionType,
+          id: this.devToolsId(),
+          content:
+            Object.keys(action.payload).length > 0
+              ? { state: action.payload }
+              : {},
+        });
+      } catch (e: any) {
+        throw new Error(
+          'Make sure AGSM Dev Tools extension is installed or pass a false boolean to linkDevTools() to de-activate debugging'
+        );
+      }
+    }
+
+    // Begin dispatching to all reducers & check for changes before broadcasting
     for (const key of Object.keys(this.store)) {
-      const action: Action = {
-        type: actionType,
-        payload: payload ?? {},
-      };
       const oldState = this.store[key].state; // For performance reasons
       this.store[key].state = this.store[key].dispatcher(
         action,
@@ -82,23 +102,6 @@ export class AgsmService {
 
       if (!equals) {
         this.store[key].reducer.next(this.store[key].state);
-        if (this.devToolsLink) {
-          try {
-            chrome.runtime.sendMessage('ejpcjcmhahncbieoipffmamnedfhghld', {
-              type: 'agsm_event',
-              agsmEvent: actionType,
-              id: this.devToolsId(),
-              content:
-                Object.keys(action.payload).length > 0
-                  ? { state: action.payload }
-                  : {},
-            });
-          } catch (e: any) {
-            throw new Error(
-              'Make sure AGSM Dev Tools extension is installed or pass a false boolean to linkDevTools() to de-activate debugging'
-            );
-          }
-        }
       }
     }
   }
@@ -137,6 +140,7 @@ export class AgsmService {
       }
 
       this.store[key].state = newReducerState;
+      this.store[key].reducer.next(this.store[key].state);
     }
   }
 
