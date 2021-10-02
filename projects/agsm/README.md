@@ -8,6 +8,7 @@ AGSM stands for Angular Global State Management and is a RxJs implementation of 
 - [Installing](#installing)
 - [Example](#example)
 - [AGSM API](#agsm-api)
+- [AGSM Dev Tools Extension](#agsm-dev-tools-extension)
 - [Contribution](#contribution)
 - [Credits](#credits)
 - [License](#license)
@@ -200,11 +201,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ### addReducer
 
+Adds a new Reducer/state to the global store
+
 ```typescript
 addReducer(reducerName: string, reducerFunc: (action: Action, initialState?: any) => {}): void
 ```
 
 ### dispatch
+
+Dispatches actions to the store for reducers to change the state accordingly
 
 ```typescript
 dispatch(actionType: string, payload?: any): void
@@ -212,9 +217,42 @@ dispatch(actionType: string, payload?: any): void
 
 ### stateSelector
 
+Selects a state from the global store using a selector function (e.g. (state) => state.myState)
+
 ```typescript
 stateSelector(selector: (state: any) => any): Observable<any>
 ```
+
+### setStoreInitialState
+
+Sets the initial state of the store with a custom state object containing key-value pairs representing the reducer and its initial state respectively, e.g.:
+
+```typescript
+mystate: {
+    a: 1,
+    b: 2
+}
+```
+
+NOTE: Any state attributes provided in the state object parameter should be identical to the reducer names that were set in addReducer()
+
+addReducer() has to be used to initialise the reducers before using this function
+
+```typescript
+setStoreInitialState(state: any): void
+```
+
+### linkDevTools
+
+Links AGSM library to the AGSM Dev Tools extension to debug application's state
+
+```typescript
+linkDevTools(activate: boolean): void
+```
+
+## AGSM Dev Tools Extension
+
+Check out the chrome web store and search for AGSM Dev Tools to install the current beta version
 
 ## Contribution
 
