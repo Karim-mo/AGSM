@@ -65,6 +65,9 @@ import { postsReducer } from "./reducers/postsReducer";
 })
 export class StoreService {
   constructor(private agsm: AgsmService) {
+    // Use this line at the beginning of the store constructor to activate agsm devtools debugging
+    this.agsm.linkDevTools(true);
+
     // Add reducer takes in a string for the reducer name and the reducer pure function as a 2nd parameter
     this.agsm.addReducer("postsList", postsReducer);
   }
@@ -130,7 +133,7 @@ export const postsReducer = (
   action: any,
   state: any = {
     loading: true,
-    posts: null,
+    posts: [],
     error: null,
   }
 ) => {
@@ -147,7 +150,7 @@ export const postsReducer = (
     case POSTS_FAIL:
       return {
         loading: false,
-        posts: null,
+        posts: [],
         error: action.payload,
       };
     default:
@@ -172,7 +175,7 @@ import { StoreService } from "./agsm/store.service";
 })
 export class AppComponent implements OnInit, OnDestroy {
   postsListSubscription: Subscription;
-  postsList: [] = [];
+  postsList: any; // This will hold our state value locally in this component, it will get updated whenever the state changes
 
   constructor(
     private store: StoreService, // This needs to be injected first and once only in app.component.ts
@@ -183,8 +186,12 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Subscribing to a reducer to retrieve latest updates from actions/dispatches
     this.postsListSubscription = this.agsm
-      .stateSelector((state) => state.postsList)
-      .subscribe((posts) => (this.postsList = posts));
+      .stateSelector((state) => state.postsList) // Selecting our reducer using a pure selector function
+      .subscribe((stateValue) => {
+        // Subscribing to a state will return it's current value and any subsequent updated values
+        this.postsList = stateValue;
+        console.log(this.postsList);
+      });
 
     // Use our getPosts action to call our backend and update the postsList reducer/state
     // which will then emit an event to our subscriber(s) of that reducer to handle the returned data
