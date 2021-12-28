@@ -60,16 +60,13 @@ export class AgsmService {
       payload: payload ?? {},
     };
 
-    if (this.devToolsLink) {
+    if (this.devToolsLink && Object.keys(action.payload).length <= 0) {
       try {
         chrome.runtime.sendMessage('ejpcjcmhahncbieoipffmamnedfhghld', {
           type: 'agsm_event',
           agsmEvent: actionType,
           id: this.devToolsId(),
-          content:
-            Object.keys(action.payload).length > 0
-              ? { state: action.payload }
-              : {},
+          content: {},
         });
       } catch (e: any) {
         throw new Error(
@@ -102,6 +99,24 @@ export class AgsmService {
 
       if (!equals) {
         this.store[key].reducer.next(this.store[key].state);
+
+        if (this.devToolsLink) {
+          try {
+            chrome.runtime.sendMessage('ejpcjcmhahncbieoipffmamnedfhghld', {
+              type: 'agsm_event',
+              agsmEvent: actionType,
+              id: this.devToolsId(),
+              content:
+                Object.keys(this.store[key].state).length > 0
+                  ? { state: this.store[key].state }
+                  : {},
+            });
+          } catch (e: any) {
+            throw new Error(
+              'Make sure AGSM Dev Tools extension is installed or pass a false boolean to linkDevTools() to de-activate debugging'
+            );
+          }
+        }
       }
     }
   }
