@@ -44,7 +44,7 @@ export class AgsmService {
     this.store[reducerName] = {
       dispatcher: reducerFunc,
       state: initialState,
-      reducer: new BehaviorSubject<any>({}),
+      reducer: new BehaviorSubject<any>(initialState),
     };
   }
 
