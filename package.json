@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "publish-npm": "rd /s /q dist & cd projects/agsm && npm version patch --no-git-tag-version && cd ../.. && ng build agsm && cd dist/agsm  && npm publish",
+    "build-yalc": "rd /s /q dist & ng build agsm && cd dist/agsm && yalc publish --push"
   },
   "private": true,
   "dependencies": {

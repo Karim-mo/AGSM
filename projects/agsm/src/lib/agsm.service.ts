@@ -2,6 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Action } from '../models/action.model';
 
 @Injectable({
@@ -127,7 +128,15 @@ export class AgsmService {
    * @returns Observable
    */
   stateSelector(selector: (state: any) => any): Observable<any> {
-    return selector(this.store).reducer.asObservable();
+    const selectedState = selector(this.store);
+    if (!selectedState)
+      throw new Error('Selected reducer does not exist in agsm store');
+
+    return selectedState.reducer.asObservable().pipe(
+      map((state: any) => {
+        return Object.freeze(JSON.parse(JSON.stringify(state)));
+      })
+    );
   }
 
   /**
