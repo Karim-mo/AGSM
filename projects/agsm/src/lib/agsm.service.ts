@@ -134,7 +134,7 @@ export class AgsmService {
 
     return selectedState.reducer.asObservable().pipe(
       map((state: any) => {
-        return Object.freeze(JSON.parse(JSON.stringify(state)));
+        return JSON.parse(JSON.stringify(state));
       })
     );
   }
