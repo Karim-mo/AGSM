@@ -7,8 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "publish-npm": "rd /s /q dist & cd projects/agsm && npm version patch --no-git-tag-version && cd ../.. && ng build agsm && cd dist/agsm  && npm publish",
-    "build-yalc": "rd /s /q dist & ng build agsm && cd dist/agsm && yalc publish --push"
+    "publish-npm": "rimraf dist & cd projects/agsm && npm version patch --no-git-tag-version && cd ../.. && ng build agsm && cd dist/agsm  && npm publish",
+    "build-yalc": "rimraf dist & ng build agsm && cd dist/agsm && yalc publish --push"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +38,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "ng-packagr": "^12.1.1",
+    "rimraf": "^4.0.4",
     "typescript": "~4.3.5"
   },
   "license": "MIT",
